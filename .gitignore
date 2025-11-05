@@ -5,6 +5,7 @@ Release/
 __pycache__/
 TestFiles/
 Out/
+.vscode/
 
 # Ignore irrelevant studio files
 *.exe
