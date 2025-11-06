@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 // All possible commands we could get from our C2
-typedef enum Commands : uint8_t
+typedef enum Commands
 {
     disconnect = 0,
     getfile,
@@ -14,6 +14,7 @@ typedef enum Commands : uint8_t
 typedef struct DisconnectCommand
 {
     uint32_t sleep; // how long to sleep before calling back out (0 to just exit)
+    uint32_t callbackport; // which port we should reach out to once our sleep has elapsed
 } DisconnectCommand;
 
 typedef struct GetFileCommand

@@ -82,6 +82,7 @@ int handleCommands(int client_fd)
             case disconnect:
                 printf("Received disconnect command!\n");  
                 printf("Value for disconnect: 0x%X\n", command->disconnectcommand.sleep);
+                printf("Value for callback port: 0x%X\n", command->disconnectcommand.callbackport);
                 // TODO: have separate disconnect functionality here 
                 exit = true; 
                 break;

@@ -14,7 +14,8 @@ class Commands(IntEnum):
 
 class DisconnectCommand(ctypes.Structure):
     _fields_ = [
-        ("sleep", ctypes.c_uint32)
+        ("sleep", ctypes.c_uint32),
+        ("callbackport", ctypes.c_int32)
     ]
 
 class GetFileCommand(ctypes.Structure):
