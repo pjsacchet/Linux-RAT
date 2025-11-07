@@ -31,7 +31,7 @@ def handleGetFile(sock : socket.socket, target_file_path : str, local_file_path 
 
     # Copy it to disk
     with open(local_file_path, 'w') as file:
-        file.write(filedata.contents.responsedetails.getfileresponse.filebytes)
+        file.write(str(filedata.contents.responsedetails.getfileresponse.filebytes))
         file.close()
 
     print(f"Wrote {filedata.contents.filesize} bytes to {local_file_path}")
