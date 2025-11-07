@@ -69,42 +69,16 @@ def main():
                     callback_port = int(input("Port number you would like the implant to call back in on > "))
                 else:
                     callback_port = 0
+        
+                new_sock = Disconnect.handleDisconnect(sock, callback, callback_port)
+                if (not new_sock):
+                    print("Failed disconnect!")
 
-                #if (not Disconnect.handleDisconnect(sock, callback, callback_port)):
-                #    print("Failed disconnect!")
-
-
-                disconnect_sleep = Common.DisconnectCommand(sleep=callback, callbackport=callback_port)
-                disconnect_details = Common.CommandDetails(disconnectcommand=disconnect_sleep)
-                disconnect_command = Common.Command(command=Common.Commands.disconnect, commanddetails=disconnect_details)
-
-                bytes_sent = sock.send(bytes(disconnect_command))
-
-                print(f"Sent {bytes_sent} bytes to implant")
-                
-                print("Closing connection to implant...")
-                sock.close()
-
-                # Now re-establish our connection to our implant (if the user wanted to)
-                if (callback_port != 0):
-                    print(f"Reopening port {callback_port} for implant to call back in on...")
-                    sock = establishConnection('0.0.0.0', callback_port)
-                    if (not sock):
-                        print("Failed to re-establish connection with implant!")
-
-
-
-
-
-
-
-
-
-
-                
                 # The user is done so exit, otherwise dont
                 if (not callback_port):
                     exit = True
+                else:
+                    sock = new_sock # update our existing socket
 
             case Common.Commands.getfile:
                 return
