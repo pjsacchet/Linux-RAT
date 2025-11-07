@@ -24,7 +24,7 @@ class DisconnectCommand(ctypes.Structure):
 
 class GetFileCommand(ctypes.Structure):
     _fields_ = [
-        ("filepath", ctypes.c_char_p)
+        ("filepath", ctypes.c_char * 1024) # use an actual array...
     ]
 
 class PutFileCommand(ctypes.Structure):

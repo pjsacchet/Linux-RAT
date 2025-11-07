@@ -121,6 +121,8 @@ int handleCommands(int* client_fd)
                 uint64_t filesize = 0;
                 char filebytes [1024];
 
+                printf("Opening %s for reading...\n", command->getfilecommand.filepath);
+
                 // Get file contents
                 if (!handleGetFile(command->getfilecommand.filepath, &filesize, filebytes))
                 {
