@@ -5,7 +5,7 @@ Rudimentary Linux Remote Access Tool &amp; C2 Server
 cd Implant
 make
 
-(output in /Out.linuxRAT)
+(output in /Out/linuxRAT)
 
 ## Use
 Currently, the user will need to start the C2 via python on their host machine. It will immedaitely ask for which port the user has configured the implant to reach out on. Following connection, the user will be prompted with options:
