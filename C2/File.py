@@ -27,11 +27,11 @@ def handleGetFile(sock : socket.socket, target_file_path : str, local_file_path 
     filedata = ctypes.cast(data, ctypes.POINTER(Common.Response))
 
     # Get the file size
-    print(f"Received file {filedata.contents.getfileresponse.filesize} bytes large")
+    print(f"Received file {filedata.contents.responsedetails.getfileresponse.filesize} bytes large")
 
     # Copy it to disk
     with open(local_file_path, 'w') as file:
-        file.write(filedata.contents.getfileresponse.filebytes)
+        file.write(filedata.contents.responsedetails.getfileresponse.filebytes)
         file.close()
 
     print(f"Wrote {filedata.contents.filesize} bytes to {local_file_path}")

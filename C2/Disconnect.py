@@ -1,3 +1,4 @@
+# Patrick Sacchet
 # File implements all disconnect functionality for the C2
 
 import socket

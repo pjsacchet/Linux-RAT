@@ -86,5 +86,5 @@ class ResponseDetails(ctypes.Union):
 class Response(ctypes.Structure):
     _fields_ = [
         ("response", ctypes.c_uint8),
-        ("commanddetails", ResponseDetails)
+        ("responsedetails", ResponseDetails)
     ]
