@@ -62,7 +62,7 @@ class Command(ctypes.Structure):
 class GetFileResponse(ctypes.Structure):
     _fields_ = [
         ("filesize", ctypes.c_uint64),
-        ("filebytes", ctypes.c_char_p)
+        ("filebytes", ctypes.c_char * 1024)
     ]
 
 class PutFileResponse(ctypes.Structure):

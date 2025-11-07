@@ -70,7 +70,7 @@ typedef struct Command
 typedef struct GetFileResponse
 {
     uint64_t filesize; // how large is the file we read
-    char* filebytes; // contents of file we got
+    char filebytes [1024]; // contents of file we got
 } GetFileResponse; 
 
 typedef struct PutFileResponse
