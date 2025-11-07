@@ -47,14 +47,6 @@ int sendFileContents(int* client_fd, uint64_t file_size, char* file_bytes)
 
     response.getfileresponse.filesize = file_size;
 
-    /**response.getfileresponse.filebytes = (char*)malloc(sizeof(char) * file_size);
-    if (response.getfileresponse.filebytes == NULL)
-    {
-        printf("OOM!\n");
-        status = 0;
-        goto cleanup;
-    }*/
-
     memcpy(response.getfileresponse.filebytes, file_bytes, file_size);
 
     bytes_sent = send(*client_fd, (void*)&response, sizeof(response), 0);
