@@ -87,7 +87,7 @@ def main():
                 # Get the local path for where we will write this file locally
                 local_file_path = str(input("File location to write locally > "))
 
-                if (not File.handleFileGet(sock, target_file_path, local_file_path)):
+                if (not File.handleGetFile(sock, target_file_path, local_file_path)):
                     print("Failed to get file from target")
 
                 return
