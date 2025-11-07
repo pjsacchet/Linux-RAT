@@ -1,10 +1,10 @@
-CC = gcc
+CC = gcc -static
 
 CFLAGS = -Wall -g
 
 TARGET = ../Out/linuxRAT
 
-SOURCES = Main.c File.c Dir.c
+SOURCES = Main.c File.c Dir.c Disconnect.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

