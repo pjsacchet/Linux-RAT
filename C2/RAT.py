@@ -81,11 +81,22 @@ def main():
                     sock = new_sock # update our existing socket
 
             case Common.Commands.getfile:
+                # Get the filepath for what we'll read off target
+                target_file_path = str(input("File location on target > "))
+
+                # Get the local path for where we will write this file locally
+                local_file_path = str(input("File location to write locally > "))
+
+                if (not File.handleFileGet(sock, target_file_path, local_file_path)):
+                    print("Failed to get file from target")
+
                 return
             
+            # TODO: implement
             case Common.Commands.putfile:
                 return
             
+            # TODO: implement
             case Common.Commands.dirlist:
                 return
             

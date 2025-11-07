@@ -4,6 +4,10 @@
 #include <stdint.h>
 
 
+///////////////////////////////////////////
+//              Commands                 //
+///////////////////////////////////////////
+
 // All possible commands we could get from our C2
 typedef enum Commands
 {
@@ -54,6 +58,28 @@ typedef struct Command
     
 } Command;
 
+///////////////////////////////////////////
+//              Responses                //
+///////////////////////////////////////////
+
+// No response for disconnect really needed...
+
+typedef struct GetFileResponse
+{
+    uint64_t filesize; // how large is the file we read
+    char* filebytes; // contents of file we got
+} GetFileResponse; 
+
+typedef struct PutFileResponse
+{
+    uint64_t bytesWritten // how many bytes did we end up writing to target
+} PutFileResponse;
+
+typedef struct DirListResponse
+{
+    char* dirs; // list of all the dirs we retrieved
+} DirListResponse;
+
 // Each command has a response we are sending back
 typedef struct Response
 {
@@ -61,25 +87,11 @@ typedef struct Response
 
     union 
     {
-        struct disconnectresponse
-        {
-            // nothing needed here
-        };
+        GetFileResponse getfileresponse;
 
-        struct getfileresponse
-        {
-            char* filebytes; // contents of file we were told to get
-        };
+        PutFileResponse putfileresponse;
 
-        struct putfileresponse
-        {
-            // nothing needed here? could put number of bytes written to target
-        };
-
-        struct dirlistresponse
-        {
-            char* dircontents; // contents of directory we were told to perfornm a dirlist on 
-        };
+        DirListResponse dirlistresponse;
     };
     
 } Response;

