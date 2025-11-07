@@ -24,14 +24,14 @@ def handleGetFile(sock : socket.socket, target_file_path : str, local_file_path 
         # TODO: max size of file 1024 bytes? or just that many in one read...
     data = sock.recv(1032)
 
-    filedata = ctypes.cast(data, ctypes.POINTER(Common.GetFileResponse))
+    filedata = ctypes.cast(data, ctypes.POINTER(Common.Response))
 
     # Get the file size
-    print(f"Received file {filedata.contents.filesize} bytes large")
+    print(f"Received file {filedata.contents.getfileresponse.filesize} bytes large")
 
     # Copy it to disk
     with open(local_file_path, 'w') as file:
-        file.write(filedata.contents.filebytes)
+        file.write(filedata.contents.getfileresponse.filebytes)
         file.close()
 
     print(f"Wrote {filedata.contents.filesize} bytes to {local_file_path}")

@@ -1,3 +1,6 @@
+#ifndef COMMON_HEADER_H
+#define COMMON_HEADER_H
+
 // Patrick Sacchet
 // Define common structs and functions across C2 and implant
 
@@ -25,7 +28,7 @@ typedef struct DisconnectCommand
 
 typedef struct GetFileCommand
 {
-    char* filepath; // path to the file we are getting
+    char filepath [1024]; // path to the file we are getting
 } GetFileCommand; 
 
 typedef struct PutFileCommand
@@ -95,3 +98,6 @@ typedef struct Response
     };
     
 } Response;
+
+
+#endif

