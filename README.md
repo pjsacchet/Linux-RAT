@@ -2,8 +2,8 @@
 Rudimentary Linux Remote Access Tool &amp; C2 Server
 
 ## Building
-cd Implant
-make
+~ > cd Implant
+/Implant > make
 
 (output in /Out.linuxRAT)
 
