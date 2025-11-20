@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <time.h>
+#include <netdb.h>
+#include <stdbool.h>
 
 #define TLD_SIZE 5
 #define RAND_SIZE 150 // technically we only need 127 but this works...

