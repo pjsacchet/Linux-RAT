@@ -23,11 +23,12 @@ cleanup:
 int generateAGDs(int seed, char*** agds)
 {
     int status = 1, tldIndex = 0, offsetAdd = 0, count = 0;
+    char *domEnd = ".csc840.local";
 
     while (count < 10)
     {
         int agdCount = 0;
-        char agd [30]; // longest string would hypothetically be 22, but just in case...
+        char agd [45] = { 0 }; 
 
         memset(agd, 0, sizeof(agd));
 
@@ -68,9 +69,13 @@ int generateAGDs(int seed, char*** agds)
         memcpy(&agd[agdCount], tlds[tldIndex], strlen(tlds[tldIndex]));
         agdCount += strlen(tlds[tldIndex]);
         tldIndex += 1;
-        
+
+        // Append the rest of the domain
+        memcpy(&agd[agdCount], domEnd, strlen(domEnd));
+        agdCount += strlen(domEnd);
+
         // Allocate for agds entry
-        agds[count] = (char*) malloc(sizeof(char) * strlen(agd));
+        agds[count] = (char*) malloc(sizeof(char) * strlen(agd) + 1);
         if (agds[count] == NULL)
         {
             printf("OOM!\n");
@@ -78,7 +83,7 @@ int generateAGDs(int seed, char*** agds)
             goto cleanup;
         }
 
-        memcpy(agds[count], agd, strlen(agd));
+        memcpy(agds[count], agd, strlen(agd) + 1);
         count += 1;
     }
 
@@ -161,7 +166,7 @@ int determineC2Address(char** address)
         printf("Generated AGDs:\n");
         for (int i=0; i< 10; i++)
         {
-            printf("\t%s\n", agds[i]);            
+            printf("\t%s\n", agds[i]);         
         }
     }
 
