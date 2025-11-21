@@ -100,6 +100,7 @@ int resolveAddress(char** agds, char** address)
     int status = 1, index = 0;
     struct hostent *host_info;
     struct in_addr *address_calc;
+    char* ip_string;
 
     // While we still havent found our address
     while(!found)
@@ -112,7 +113,17 @@ int resolveAddress(char** agds, char** address)
             {
                 address_calc = (struct in_addr*) (host_info->h_addr);
                 printf("Found IP!: %s\n", inet_ntoa(*address_calc));
-                memcpy(*address, (void*)inet_ntoa(*address_calc), 15); // lazy copy 
+                ip_string = inet_ntoa(*address_calc);
+
+                *address = (char*)malloc(sizeof(char) * strlen(ip_string));
+                if (*address == NULL)
+                {
+                    printf("OOM!\n");
+                    status = 0;
+                    goto cleanup;
+                }
+
+                memcpy(*address, ip_string, strlen(ip_string)); 
                 found = true;
                 break;
             }
