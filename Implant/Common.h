@@ -15,9 +15,11 @@
 typedef enum Commands
 {
     disconnect = 0,
+    poweroff,
     getfile,
     putfile,
-    dirlist
+    dirlist,
+    survey
 } Commands;
 
 typedef struct DisconnectCommand
@@ -54,7 +56,7 @@ typedef struct Command
 
         GetFileCommand getfilecommand;
 
-       PutFileCommand putfilecommand;
+        PutFileCommand putfilecommand;
 
         DirListCommand dirlistcommand;
     };

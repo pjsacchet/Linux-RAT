@@ -12,9 +12,11 @@ from enum import IntEnum
 # Define our options for the user to choose from 
 class Commands(IntEnum):
     disconnect = 0
-    getfile = 1
-    putfile = 2
-    dirlist = 3
+    shutdown = 1
+    getfile = 3
+    putfile = 4
+    dirlist = 5
+    survey = 6
 
 class DisconnectCommand(ctypes.Structure):
     _fields_ = [

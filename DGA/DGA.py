@@ -5,7 +5,7 @@
     # 1) Define our TLDs and random letter/number list, of which is at least 127 entries long 
     # 2) Grab the current day integer value for today's date
     # 3) Calculate our seed via the ASCII value of the letter/number of the index into our random array
-    # 4) Generate our list fo 10 domains:
+    # 4) Generate our list of 10 domains:
         # a) While total strings in our array is less than 10
         # b) While our length of our current string is less than 10
             # 1) Calculate our offset into our random array as either the difference between our seed and total count or the sum

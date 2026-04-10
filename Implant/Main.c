@@ -108,7 +108,6 @@ int handleCommands(int* client_fd)
 
         // Parse our bytes to see what command we're dealing with 
         command = (Command*)buffer;
-
         switch (command->command)
         {
             case disconnect:
@@ -138,6 +137,13 @@ int handleCommands(int* client_fd)
                     }
                 }
                 break;
+
+            case poweroff:
+
+
+
+
+                break
 
             case getfile:
                 printf("Received getfile command!\n");
