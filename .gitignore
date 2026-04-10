@@ -6,6 +6,7 @@ __pycache__/
 TestFiles/
 Out/
 .vscode/
+.vs/
 
 # Ignore irrelevant studio files
 *.exe
@@ -23,3 +24,4 @@ Out/
 *.vcxproj.filters
 *.vcxproj.user
 *.o
+*.ipch
