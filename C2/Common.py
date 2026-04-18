@@ -24,6 +24,8 @@ class DisconnectCommand(ctypes.Structure):
         ("callbackport", ctypes.c_int32)
     ]
 
+# Do we need a class for shutdown if there's no details to send the implant...
+
 class GetFileCommand(ctypes.Structure):
     _fields_ = [
         ("filepath", ctypes.c_char * 1024) # use an actual array...
@@ -39,6 +41,8 @@ class DirListCommand(ctypes.Structure):
     _fields_ = [
         ("dirpath", ctypes.c_char_p)
     ]
+
+# Do we need a class for survey if there's no details to send the implant...
 
 class CommandDetails(ctypes.Union):
     _fields_ = [
@@ -61,6 +65,8 @@ class Command(ctypes.Structure):
 
 # No reponse for disconnect needed
 
+# No response for shutdown needed
+
 class GetFileResponse(ctypes.Structure):
     _fields_ = [
         ("filesize", ctypes.c_uint64),
@@ -77,11 +83,21 @@ class DirListResponse(ctypes.Structure):
         ("dirs", ctypes.c_char_p)
     ]
 
+class SurveyResponse(ctypes.Structure):
+    _fields_ = [
+        ("osname", ctypes.c_char * 50), 
+        ("osrelease", ctypes.c_char * 50), 
+        ("osversion", ctypes.c_char * 50),
+        ("arch", ctypes.c_char * 50),
+        ("mac", ctypes.c_char * 50)
+    ]
+
 class ResponseDetails(ctypes.Union):
     _fields_ = [
         ("getfileresponse", GetFileResponse),
         ("putfileresponse", PutFileResponse),
-        ("dirlistresponse", DirListResponse)
+        ("dirlistresponse", DirListResponse),
+        ("surveyresponse", SurveyResponse)
     ]
 
 # Mimics our Response struct in C2/Common.h
