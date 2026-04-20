@@ -5,7 +5,7 @@
 #include <sys/reboot.h>
 #include <unistd.h>
 
-void handleShutdown();
+int handleShutdown();
 
 
 #endif 

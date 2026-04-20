@@ -28,6 +28,8 @@ typedef struct DisconnectCommand
     uint32_t callbackport; // which port we should reach out to once our sleep has elapsed
 } DisconnectCommand;
 
+// Dont need to send any details for a shutdown command
+
 typedef struct GetFileCommand
 {
     char filepath [1024]; // path to the file we are getting
@@ -43,6 +45,8 @@ typedef struct DirListCommand
 {
     char* dirpath; // path to the directory we are performing a dirlist on 
 } DirListCommand;
+
+// Dont neede to send any details for a dir list command
 
 // Each command has a structure we are parsing 
 typedef struct Command
@@ -69,6 +73,8 @@ typedef struct Command
 
 // No response for disconnect really needed...
 
+// No response for shutdown really needed...
+
 typedef struct GetFileResponse
 {
     uint64_t filesize; // how large is the file we read
@@ -85,6 +91,16 @@ typedef struct DirListResponse
     char* dirs; // list of all the dirs we retrieved
 } DirListResponse;
 
+typedef struct SurveyResponse
+{
+    char osName [50];
+    char osRelease [50];
+    char osVersion [50];
+    char arch [50];
+    char mac [50];
+
+} SurveyResponse;
+
 // Each command has a response we are sending back
 typedef struct Response
 {
@@ -97,6 +113,8 @@ typedef struct Response
         PutFileResponse putfileresponse;
 
         DirListResponse dirlistresponse;
+
+        SurveyResponse surveyresponse;
     };
     
 } Response;
