@@ -7,7 +7,7 @@ import Common
 def handleShutdown(sock : socket.socket) -> bool:
 
     # Print the user to ensure they REALLY want to shutdown the target
-    choice = (int(input('Are you SURE you want to shutdown the target?' \
+    choice = (int(input('Are you SURE you want to shutdown the target?\n' \
                         '\t 1) Yes\n' \
                         '\t 2) No\n')))
     

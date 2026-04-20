@@ -30,5 +30,6 @@ def handleDisconnect(sock : socket.socket, callback : int, callback_port : int) 
         if (not new_sock):
             print("Failed to re-establish connection with implant!")
             return 0
+        
 
     return new_sock

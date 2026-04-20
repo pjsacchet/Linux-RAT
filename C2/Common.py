@@ -13,10 +13,10 @@ from enum import IntEnum
 class Commands(IntEnum):
     disconnect = 0
     shutdown = 1
-    getfile = 3
-    putfile = 4
-    dirlist = 5
-    survey = 6
+    getfile = 2
+    putfile = 3
+    dirlist = 4
+    survey = 5
 
 class DisconnectCommand(ctypes.Structure):
     _fields_ = [

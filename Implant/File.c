@@ -59,10 +59,10 @@ int sendFileContents(int* client_fd, uint64_t file_size, char* file_bytes)
 
 
 cleanup:
-    if (response.getfileresponse.filebytes != NULL)
+    /**if (response.getfileresponse.filebytes != NULL)
     {
         free(response.getfileresponse.filebytes);
-    }
+    }*/
 
     memset(&response, 0, sizeof(response));
 

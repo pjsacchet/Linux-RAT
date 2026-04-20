@@ -73,7 +73,7 @@ def main():
                     callback_port = 0
         
                 new_sock = Disconnect.handleDisconnect(sock, callback, callback_port)
-                if (not new_sock):
+                if (not new_sock and callback_port != 0): # we failed our disconnect if the user wanted to reconnect and we didnt
                     print("Failed disconnect!")
 
                 # The user is done so exit, otherwise dont
@@ -83,7 +83,8 @@ def main():
                     sock = new_sock # update our existing socket
 
             case Common.Commands.shutdown:
-                Shutdown.handleShutdown()
+                Shutdown.handleShutdown(sock)
+                print("Disconnected from target since its off...")
                 exit = True # Guess we're done here 
 
             case Common.Commands.getfile:

