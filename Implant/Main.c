@@ -189,6 +189,13 @@ int handleCommands(int* client_fd)
             case survey:
                 printf("Received survey command!\n");
 
+                if (!handleSurvey(client_fd))
+                {
+                    printf("Failed to get survey information from target!\n");
+                }
+
+                break;
+
             default:
                 printf("ERROR: Failed to recognize command: 0x%X\n", command->command);
                 break;

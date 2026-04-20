@@ -49,6 +49,8 @@ int sendFileContents(int* client_fd, uint64_t file_size, char* file_bytes)
 
     memcpy(response.getfileresponse.filebytes, file_bytes, file_size);
 
+    printf("Contents of file: %s\n", response.getfileresponse.filebytes);
+
     bytes_sent = send(*client_fd, (void*)&response, sizeof(response), 0);
     if (bytes_sent == 0)
     {
@@ -59,11 +61,6 @@ int sendFileContents(int* client_fd, uint64_t file_size, char* file_bytes)
 
 
 cleanup:
-    /**if (response.getfileresponse.filebytes != NULL)
-    {
-        free(response.getfileresponse.filebytes);
-    }*/
-
     memset(&response, 0, sizeof(response));
 
     return status;

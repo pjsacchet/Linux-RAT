@@ -95,7 +95,7 @@ typedef struct SurveyResponse
 {
     char osName [50];
     char osRelease [50];
-    char osVersion [50];
+    char osVersion [100];
     char arch [50];
     char mac [50];
 

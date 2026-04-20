@@ -87,7 +87,7 @@ class SurveyResponse(ctypes.Structure):
     _fields_ = [
         ("osname", ctypes.c_char * 50), 
         ("osrelease", ctypes.c_char * 50), 
-        ("osversion", ctypes.c_char * 50),
+        ("osversion", ctypes.c_char * 100),
         ("arch", ctypes.c_char * 50),
         ("mac", ctypes.c_char * 50)
     ]
