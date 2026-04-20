@@ -25,3 +25,4 @@ Out/
 *.vcxproj.user
 *.o
 *.ipch
+*.txt
